@@ -10,7 +10,7 @@ fclose(fileID);
     % extract data for box stacks:
 boxes = extractBefore(string(input)," 1   2");
     % Separate into lines:
-boxes = string(splitlines(boxes{1}));
+boxes = string(splitlines(boxes));
     % 9x1 string array, each string representing order of boxes in row:
 boxes = string(char(boxes)');
 boxes = strtrim(boxes(2:4:size(boxes)));
@@ -20,8 +20,8 @@ boxes = strtrim(boxes(2:4:size(boxes)));
     % extract instructions data:
 instructions = extractAfter(string(input),"move");
 instructions = erase(instructions, ["move ", "from ", "to "]);
-    % Separate into lines:
-instructions = char(splitlines(instructions{1}));
+    % rearrange into numeric matrix of 3 columns:
+instructions = char(splitlines(instructions));
 instructions = str2num(instructions);
 
 
