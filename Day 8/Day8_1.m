@@ -38,16 +38,11 @@ function [checkOut] = treeCount(line, checkIn)
 
     [~,i] = max(line);
     checkOut = checkIn;
+    maxTreeHeight = 0
 
 % From one direction:
-    if line(1) == 0 
-        maxTreeHeight = 0;
-    else
-        checkOut(1) = 1;
-        maxTreeHeight = line(1);
-    end
     
-    for n = 2:i
+    for n = 1:i
         if line(n) > maxTreeHeight
            maxTreeHeight = line(n);
            checkOut(n) = 1;
@@ -57,17 +52,12 @@ function [checkOut] = treeCount(line, checkIn)
 % From the other direction:
 line = flip(line);
 checkOut = flip(checkOut);
-       if line(1) == 0 
-        maxTreeHeight = 0;
-    else
-        checkOut(1) = 1;
-        maxTreeHeight = line(1);
-    end
-    
-    for n = 2:i
+maxTreeHeight = 0;
+
+    for n = 1:i
         if line(n) > maxTreeHeight
-           maxTreeHeight = line(n);
-           checkOut(n) = 1;
+            maxTreeHeight = line(n);
+            checkOut(n) = 1;
         end
     end
    checkOut = flip(checkOut); 
