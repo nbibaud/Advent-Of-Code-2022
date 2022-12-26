@@ -9,67 +9,66 @@ fclose(fileID);
 treeGrid = char(splitlines(input))-'0';
 
 
-% Find number of visible trees in each row and column:
+%---------------------------------------------------------------------------
+
+
+% Create logical matrix: 1 if trees can be seen, 0 if not:
+check = zeros(99);
+
+% Find visible trees in each row and column:
 for row = 1:size(treeGrid,1)
-    TreesRow(row) = treeCount(treeGrid(row,:));
+    check(row,:) = treeCount(treeGrid(row,:),check(row,:));
 end
 
 for column = 1:size(treeGrid,2)
-    TreesColumn(column) = treeCount(treeGrid(:,column));
+    check(:,column) = treeCount(treeGrid(:,column),check(:,column));
 end
 
 % Find number of visible trees overall:
-solution = sum(TreesColumn) + sum(TreesRow)
+solution = nnz(check)
 
 
-%-------------FUNCTIONS--------------------------------------------------
+%-----FUNCTIONS----------------------------------
 
 
 
-% Function to count how many visible trees along a line:
+% Function to find visible trees along a line:
 
-function [visibleTrees] = treeCount(line)
+function [checkOut] = treeCount(line, checkIn)
 
     [~,i] = max(line);
+    checkOut = checkIn;
 
 % From one direction:
-    if line(1) == 0
-        visibleTrees1 = 0;
+    if line(1) == 0 
         maxTreeHeight = 0;
     else
-        visibleTrees1 = 1;
+        checkOut(1) = 1;
         maxTreeHeight = line(1);
     end
     
     for n = 2:i
         if line(n) > maxTreeHeight
-            visibleTrees1 = visibleTrees1+1;
-            maxTreeHeight = line(n);
+           maxTreeHeight = line(n);
+           checkOut(n) = 1;
         end
     end
 
 % From the other direction:
 line = flip(line);
-    if line(1) == 0
-        visibleTrees2 = 0;
+checkOut = flip(checkOut);
+       if line(1) == 0 
         maxTreeHeight = 0;
     else
-        visibleTrees2 = 1;
+        checkOut(1) = 1;
         maxTreeHeight = line(1);
     end
     
     for n = 2:i
         if line(n) > maxTreeHeight
-            visibleTrees2 = visibleTrees2+1;
-            maxTreeHeight = line(n);
+           maxTreeHeight = line(n);
+           checkOut(n) = 1;
         end
     end
-
-    visibleTrees = visibleTrees1 + visibleTrees2;
-
-% if max value only appears once in row, visibleTrees will be 1 too high, so adjust:
-    if sum(line==max(line)) == 1
-        visibleTrees = visibleTrees-1;
-    end
-    
+   checkOut = flip(checkOut); 
 end
