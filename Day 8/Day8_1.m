@@ -36,11 +36,10 @@ solution = nnz(check)
 
 function [checkOut] = treeCount(line, checkIn)
 
-    [~,i] = max(line);
-    checkOut = checkIn;
-    maxTreeHeight = 0
-
 % From one direction:
+[~,i] = max(line);
+checkOut = checkIn;
+maxTreeHeight = 0
     
     for n = 1:i
         if line(n) > maxTreeHeight
@@ -51,6 +50,7 @@ function [checkOut] = treeCount(line, checkIn)
 
 % From the other direction:
 line = flip(line);
+[~,i] = max(line);
 checkOut = flip(checkOut);
 maxTreeHeight = 0;
 
