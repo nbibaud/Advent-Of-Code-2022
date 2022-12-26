@@ -7,6 +7,7 @@ fclose(fileID);
 
 % Format as numeric matrix:
 treeGrid = char(splitlines(input))-'0';
+% Fix my lack of reading comprehension:
 treeGrid = treeGrid + 1;
 
 
@@ -38,7 +39,6 @@ solution = nnz(check)
 function [checkOut] = treeCount(line, checkIn)
 
 % From one direction:
-% [~,i] = max(line);
 checkOut = checkIn;
 maxTreeHeight = 0;
     
@@ -51,7 +51,6 @@ maxTreeHeight = 0;
 
 % From the other direction:
 line = flip(line);
-% [~,i] = max(line);
 checkOut = flip(checkOut);
 maxTreeHeight = 0;
 
