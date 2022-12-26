@@ -7,13 +7,14 @@ fclose(fileID);
 
 % Format as numeric matrix:
 treeGrid = char(splitlines(input))-'0';
+treeGrid = treeGrid + 1;
 
 
 %---------------------------------------------------------------------------
 
 
-% Create logical matrix: 1 if trees can be seen, 0 if not:
-check = zeros(99);
+% Create base for a logical matrix: 1 if trees can be seen, 0 if not:
+check = zeros(size(treeGrid));
 
 % Find visible trees in each row and column:
 for row = 1:size(treeGrid,1)
@@ -37,11 +38,11 @@ solution = nnz(check)
 function [checkOut] = treeCount(line, checkIn)
 
 % From one direction:
-[~,i] = max(line);
+% [~,i] = max(line);
 checkOut = checkIn;
-maxTreeHeight = 0
+maxTreeHeight = 0;
     
-    for n = 1:i
+    for n = 1:numel(line)
         if line(n) > maxTreeHeight
            maxTreeHeight = line(n);
            checkOut(n) = 1;
@@ -50,11 +51,11 @@ maxTreeHeight = 0
 
 % From the other direction:
 line = flip(line);
-[~,i] = max(line);
+% [~,i] = max(line);
 checkOut = flip(checkOut);
 maxTreeHeight = 0;
 
-    for n = 1:i
+    for n = 1:numel(line)
         if line(n) > maxTreeHeight
             maxTreeHeight = line(n);
             checkOut(n) = 1;
